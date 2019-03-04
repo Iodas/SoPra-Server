@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+
+import java.time.LocalDate;
+
 @Service
 @Transactional
 public class UserService {
@@ -32,6 +35,11 @@ public class UserService {
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
+
+        //getting the time of creation of new user
+        newUser.setDate(LocalDate.now());
+
+
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;

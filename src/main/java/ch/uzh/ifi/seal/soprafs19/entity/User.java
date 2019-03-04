@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.entity;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +31,9 @@ public class User implements Serializable {
 
 	@Column(nullable = false)
 	private UserStatus status;
+
+	@GeneratedValue
+	private LocalDate date;
 
 	public Long getId() {
 		return id;
@@ -70,6 +74,12 @@ public class User implements Serializable {
 	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
+
+	//gettin Date of creation for user
+	public void setDate(LocalDate date) { this.date = date; }
+
+	public LocalDate getDate() { return date; }
+
 
 	@Override
 	public boolean equals(Object o) {
