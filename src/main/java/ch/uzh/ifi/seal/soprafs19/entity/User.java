@@ -32,8 +32,13 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private UserStatus status;
 
+	//Local date class import to get current date
 	@GeneratedValue
 	private LocalDate date;
+
+	//password
+	@Column(nullable = false)
+	private String password;
 
 	public Long getId() {
 		return id;
@@ -79,6 +84,11 @@ public class User implements Serializable {
 	public void setDate(LocalDate date) { this.date = date; }
 
 	public LocalDate getDate() { return date; }
+
+	//password get and set
+	public String getPassword() {return password;}
+
+	public void setPassword(String password) {this.password = password;}
 
 
 	@Override
