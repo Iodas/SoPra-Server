@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.soprafs19.service;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
+import ch.uzh.ifi.seal.soprafs19.exception.UsernameTakenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +34,21 @@ public class UserService {
     }
 
     public User createUser(User newUser) {
-        newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.ONLINE);
+        if (this.userRepository.findByUsername(newUser.getUsername()) != null){
+            throw new UsernameTakenException();
+        }
+        else {
+            newUser.setToken(UUID.randomUUID().toString());
+            newUser.setStatus(UserStatus.ONLINE);
 
-        //getting the time of creation of new user
-        newUser.setDate(LocalDate.now());
+            //getting the time of creation of new user
+            newUser.setDate(LocalDate.now());
 
 
-        userRepository.save(newUser);
-        log.debug("Created Information for User: {}", newUser);
-        return newUser;
+            userRepository.save(newUser);
+            log.debug("Created Information for User: {}", newUser);
+            return newUser;
+        }
+
     }
 }
