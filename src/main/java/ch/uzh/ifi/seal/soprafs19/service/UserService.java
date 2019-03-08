@@ -1,7 +1,10 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
+import ch.uzh.ifi.seal.soprafs19.Response.LoginResponse;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
+import ch.uzh.ifi.seal.soprafs19.entity.LoginData;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
+import ch.uzh.ifi.seal.soprafs19.exception.InvalidLoginDataException;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.exception.UsernameTakenException;
 import org.slf4j.Logger;
@@ -33,6 +36,10 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public User findUserByUsername(String username){
+        return this.userRepository.findByUsername(username);
+    }
+
     public User createUser(User newUser) {
         if (this.userRepository.findByUsername(newUser.getUsername()) != null){
             throw new UsernameTakenException();
@@ -51,4 +58,29 @@ public class UserService {
         }
 
     }
+
+
+
+    public LoginResponse checkLoginData(LoginData data){
+        String username = data.getUsername();
+        String password = data.getPassword();
+        User user = this.userRepository.findByUsername(username);
+
+        if (!this.userRepository.existsByUsername(username)){
+            throw new InvalidLoginDataException();
+        }
+
+        else {
+            if (!user.getPassword().equals(password)){
+                throw new InvalidLoginDataException();
+            }
+        }
+        String token = this.userRepository.findByUsername(username).getToken();
+        LoginResponse loggedUser = new LoginResponse(user);
+        loggedUser.setToken(token);
+        return loggedUser;
+    }
+
+
+
 }
