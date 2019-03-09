@@ -1,12 +1,14 @@
 package ch.uzh.ifi.seal.soprafs19.service;
 
 import ch.uzh.ifi.seal.soprafs19.Response.LoginResponse;
+import ch.uzh.ifi.seal.soprafs19.Response.UserIdResponse;
 import ch.uzh.ifi.seal.soprafs19.constant.UserStatus;
 import ch.uzh.ifi.seal.soprafs19.entity.LoginData;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.exception.InvalidLoginDataException;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.exception.UsernameTakenException;
+import ch.uzh.ifi.seal.soprafs19.exception.UserIdNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class UserService {
         return this.userRepository.findByUsername(username);
     }
 
+    public User findUserById (long id) {return this.userRepository.findById(id);}
+    public boolean existUserById (long id) {if (findUserById(id)!= null) return true; else return false;}
+
     public User createUser(User newUser) {
         if (this.userRepository.findByUsername(newUser.getUsername()) != null){
             throw new UsernameTakenException();
@@ -59,7 +64,12 @@ public class UserService {
 
     }
 
-
+    public User getUser(long id){
+        if(!this.userRepository.existsById(id)){
+            throw new UserIdNotFoundException(id);
+        }
+        else return this.findUserById(id);
+    }
 
     public LoginResponse checkLoginData(LoginData data){
         String username = data.getUsername();

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.soprafs19.controller;
 
 import ch.uzh.ifi.seal.soprafs19.Response.LoginResponse;
+import ch.uzh.ifi.seal.soprafs19.Response.UserIdResponse;
 import ch.uzh.ifi.seal.soprafs19.entity.User;
 import ch.uzh.ifi.seal.soprafs19.entity.LoginData;
 import ch.uzh.ifi.seal.soprafs19.exception.InvalidLoginDataException;
@@ -24,17 +25,22 @@ public class UserController {
         return service.getUsers();
     }
 
-    @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
-    User createUser(@RequestBody User newUser) {
-        return this.service.createUser(newUser);
-    }
+    @GetMapping("/users/{userId}")
+    UserIdResponse userIdFunction(@PathVariable long userId){ User user = this.service.getUser(userId); return new UserIdResponse(user); }
 
     @PostMapping("/users/logindata")
     @ResponseStatus(HttpStatus.OK)
-    LoginResponse login(@RequestBody LoginData data){
+    LoginResponse logindataFunction(@RequestBody LoginData data){
         return this.service.checkLoginData(data);
     }
+
+    @PostMapping("/users")
+    @ResponseStatus(HttpStatus.CREATED)
+    User usersFunction(@RequestBody User newUser) {
+        return this.service.createUser(newUser);
+    }
+
+
 
 //alternative: not entirely working though
     /*ResponseEntity<LoginResponse> login(@RequestBody LoginData data){
@@ -42,5 +48,7 @@ public class UserController {
         return new ResponseEntity<>(new LoginResponse(user), HttpStatus.OK);
 
     }*/
+
+
 
 }

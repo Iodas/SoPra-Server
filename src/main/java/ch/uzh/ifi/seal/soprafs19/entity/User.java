@@ -38,6 +38,9 @@ public class User implements Serializable {
 	@GeneratedValue
 	private LocalDate date;
 
+	@Column
+	private String birthday;
+
 	//password
 	//@Column(nullable = false)
 	@JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
@@ -88,6 +91,10 @@ public class User implements Serializable {
 	public void setDate(LocalDate date) { this.date = date; }
 
 	public LocalDate getDate() { return date; }
+
+	public void setBirthday(String birthday){ this.birthday = birthday; }
+
+	public String getBirthday() { return birthday; }
 
 	//password get and set
 	public String getPassword() {return password;}
