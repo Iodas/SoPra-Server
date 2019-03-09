@@ -40,7 +40,7 @@ public class User implements Serializable {
 
 	//password
 	//@Column(nullable = false)
-	//@JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
+	@JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false)
 	private String password;
 
