@@ -28,6 +28,12 @@ public class UserController {
     @GetMapping("/users/{userId}")
     UserIdResponse userIdFunction(@PathVariable long userId){ User user = this.service.getUser(userId); return new UserIdResponse(user); }
 
+    @PutMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void updateUser(@PathVariable long userId, @RequestBody User user){
+        this.service.updateUser(userId, user);
+    }
+
     @PostMapping("/users/logindata")
     @ResponseStatus(HttpStatus.OK)
     LoginResponse logindataFunction(@RequestBody LoginData data){

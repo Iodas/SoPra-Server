@@ -11,6 +11,7 @@ public class UserIdResponse {
     private LocalDate date;
     private UserStatus status;
     private String birthday;
+    private String token;
 
     public UserIdResponse(User user){
         this.id = user.getId();
@@ -18,6 +19,7 @@ public class UserIdResponse {
         this.date = user.getDate();
         this.status = user.getStatus();
         this.birthday = user.getBirthday();
+        this.token = user.getToken();
     }
 
     public long getId(){ return id; }
@@ -39,5 +41,9 @@ public class UserIdResponse {
     public String getBirthday(){ return birthday; }
 
     public void setBirthday(String birthday){ this.birthday = birthday; }
+
+    public String getToken(){ return token; }
+
+    public void setToken(String token){ this.token = token; }
 
 }

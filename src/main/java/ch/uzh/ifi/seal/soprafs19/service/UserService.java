@@ -91,6 +91,18 @@ public class UserService {
         return loggedUser;
     }
 
-
+    public void updateUser(long id, User user){
+        User realUser = this.userRepository.findById(id);
+        if (user.getToken().equals(realUser.getToken())){
+            if (user.getUsername() != null){
+                if (this.userRepository.findByUsername(user.getUsername()) != null){
+                    throw new UsernameTakenException();
+                }
+                else realUser.setUsername(user.getUsername());
+            }
+        }
+        //just for testing
+        //else throw new InvalidLoginDataException();
+    }
 
 }
