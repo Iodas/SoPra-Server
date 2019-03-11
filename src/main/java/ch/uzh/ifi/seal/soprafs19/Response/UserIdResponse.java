@@ -19,7 +19,7 @@ public class UserIdResponse {
         this.date = user.getDate();
         this.status = user.getStatus();
         this.birthday = user.getBirthday();
-        this.token = user.getToken();
+        //this.token = user.getToken();
     }
 
     public long getId(){ return id; }
@@ -42,8 +42,8 @@ public class UserIdResponse {
 
     public void setBirthday(String birthday){ this.birthday = birthday; }
 
-    public String getToken(){ return token; }
+    //public String getToken(){ return token; }
 
-    public void setToken(String token){ this.token = token; }
+    //public void setToken(String token){ this.token = token; }
 
 }

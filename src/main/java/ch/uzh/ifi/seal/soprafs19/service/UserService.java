@@ -9,6 +9,7 @@ import ch.uzh.ifi.seal.soprafs19.exception.InvalidLoginDataException;
 import ch.uzh.ifi.seal.soprafs19.repository.UserRepository;
 import ch.uzh.ifi.seal.soprafs19.exception.UsernameTakenException;
 import ch.uzh.ifi.seal.soprafs19.exception.UserIdNotFoundException;
+import ch.uzh.ifi.seal.soprafs19.exception.UnauthenticatedRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,9 @@ public class UserService {
 
     public void updateUser(long id, User user){
         User realUser = this.userRepository.findById(id);
+        if (realUser == null){
+            throw new InvalidLoginDataException();
+        }
         if (user.getToken().equals(realUser.getToken())){
             if (user.getUsername() != null){
                 if (this.userRepository.findByUsername(user.getUsername()) != null){
@@ -100,7 +104,11 @@ public class UserService {
                 }
                 else realUser.setUsername(user.getUsername());
             }
+            if (user.getBirthday() != null){
+                realUser.setBirthday(user.getBirthday());
+            }
         }
+        else throw new UnauthenticatedRequestException();
         //just for testing
         //else throw new InvalidLoginDataException();
     }
