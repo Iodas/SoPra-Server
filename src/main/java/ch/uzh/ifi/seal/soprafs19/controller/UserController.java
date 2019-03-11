@@ -28,6 +28,7 @@ public class UserController {
     @GetMapping("/users/{userId}")
     UserIdResponse userIdFunction(@PathVariable long userId){ User user = this.service.getUser(userId); return new UserIdResponse(user); }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateUser(@PathVariable long userId, @RequestBody User user){
