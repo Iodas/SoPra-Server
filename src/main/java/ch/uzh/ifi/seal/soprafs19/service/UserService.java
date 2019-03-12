@@ -52,7 +52,7 @@ public class UserService {
         }
         else {
             newUser.setToken(UUID.randomUUID().toString());
-            newUser.setStatus(UserStatus.ONLINE);
+            newUser.setStatus(UserStatus.OFFLINE);
 
             //getting the time of creation of new user
             newUser.setDate(LocalDate.now());
@@ -87,6 +87,7 @@ public class UserService {
             }
         }
         String token = this.userRepository.findByUsername(username).getToken();
+        user.setStatus(UserStatus.ONLINE);
         LoginResponse loggedUser = new LoginResponse(user);
         loggedUser.setToken(token);
         return loggedUser;
