@@ -108,6 +108,9 @@ public class UserService {
             if (user.getBirthday() != null){
                 realUser.setBirthday(user.getBirthday());
             }
+            if (user.getStatus() != null){
+                realUser.setStatus(UserStatus.OFFLINE);
+            }
         }
         else throw new UnauthenticatedRequestException();
         //just for testing
