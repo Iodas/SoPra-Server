@@ -49,13 +49,5 @@ public class UserController {
 
 
 
-//alternative: not entirely working though
-    /*ResponseEntity<LoginResponse> login(@RequestBody LoginData data){
-        User user = this.service.findUserByUsername(data.getUsername());
-        return new ResponseEntity<>(new LoginResponse(user), HttpStatus.OK);
-
-    }*/
-
-
 
 }

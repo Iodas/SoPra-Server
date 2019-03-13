@@ -27,7 +27,9 @@ public class User implements Serializable {
 	
 	@Column(nullable = false, unique = true) 
 	private String username;
-	
+
+	//token ignore property so we cant just fetch token from all users to edit credentials
+	@JsonProperty( value = "token", access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false, unique = true)
 	private String token;
 
@@ -41,8 +43,7 @@ public class User implements Serializable {
 	@Column
 	private String birthday;
 
-	//password
-	//@Column(nullable = false)
+	//password ignore property so we cant just fetch passwords from all users
 	@JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false)
 	private String password;
