@@ -86,6 +86,7 @@ public class UserService {
                 throw new InvalidLoginDataException();
             }
         }
+
         String token = this.userRepository.findByUsername(username).getToken();
         user.setStatus(UserStatus.ONLINE);
         LoginResponse loggedUser = new LoginResponse(user);
@@ -113,8 +114,7 @@ public class UserService {
             }
         }
         else throw new UnauthenticatedRequestException();
-        //just for testing
-        //else throw new InvalidLoginDataException();
+
     }
 
 }
