@@ -34,6 +34,7 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    //test if the createUser function works to create a new user with the correct return
     @Test
     public void createUser() {
         userRepository.deleteAll();
@@ -77,6 +78,7 @@ public class UserServiceTest {
         userRepository.deleteAll();
     }
 
+    //test if the updateUser function works with the correct return and if it actually updates the user
     @Test
     public void updateUser(){
         userRepository.deleteAll();
@@ -137,7 +139,7 @@ public class UserServiceTest {
     }
 
 
-
+    //check if we're able to get user with getUser function with correct return
     @Test
     public void getUser(){
         userRepository.deleteAll();
@@ -155,6 +157,7 @@ public class UserServiceTest {
 
     }
 
+    //check if we find the user with the id and get the correct return
     @Test
     public void findUserById(){
         userRepository.deleteAll();
