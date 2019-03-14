@@ -52,8 +52,10 @@ public class UserServiceTest {
 
     }
 
+
+    //this is the login function, also check if user status is online
     @Test
-    public void checkLoginData(){
+    public void checkLoginDataOnline(){
         userRepository.deleteAll();
         User testUser = new User();
         testUser.setName("testName");
@@ -97,6 +99,77 @@ public class UserServiceTest {
         Assert.assertNotNull(changedUser);
         Assert.assertEquals(afterChange.getUsername(), "changedUsername");
         Assert.assertEquals(afterChange.getBirthday(), "changedBirthday");
+
+    }
+
+    //this function is also used to logout, so here we see if the user is set to offline after logging in
+    @Test
+    public void updateUserOffline(){
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User createdUser = userService.createUser(testUser);
+
+        //here we are logging the user in
+        LoginData testLogin = new LoginData();
+        testLogin.setUsername("testUsername");
+        testLogin.setPassword("testPassword");
+
+        //here we are logging our user in first
+        LoginResponse testLoginResponse = userService.checkLoginData(testLogin);
+
+        long id = createdUser.getId();
+
+        User user = this.userRepository.findById(id);
+        //check if status is set to online after logging in
+        Assert.assertEquals(UserStatus.ONLINE, user.getStatus());
+
+        //logging the user out again
+        String token = testLoginResponse.getToken();
+        User changedUser = new User();
+        changedUser.setToken(token);
+        changedUser.setStatus(UserStatus.OFFLINE);
+        userService.updateUser(id, changedUser);
+
+        Assert.assertEquals(UserStatus.OFFLINE, changedUser.getStatus());
+    }
+
+
+
+    @Test
+    public void getUser(){
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User createdUser = userService.createUser(testUser);
+
+        long id = createdUser.getId();
+        User getTestUser = this.userService.getUser(id);
+
+        Assert.assertNotNull(getTestUser);
+        Assert.assertEquals(createdUser.getUsername(), getTestUser.getUsername());
+
+    }
+
+    @Test
+    public void findUserById(){
+        userRepository.deleteAll();
+        User testUser = new User();
+        testUser.setName("testName");
+        testUser.setUsername("testUsername");
+        testUser.setPassword("testPassword");
+        User createdUser = userService.createUser(testUser);
+
+        long id = createdUser.getId();
+
+        User findTestUser = this.userService.findUserById(id);
+
+        Assert.assertNotNull(findTestUser);
+        Assert.assertEquals(createdUser.getUsername(), findTestUser.getUsername());
 
     }
 
